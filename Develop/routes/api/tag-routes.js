@@ -6,13 +6,13 @@ const { Tag, Product } = require('../../models');
 // GET all tags with associated Product data
 router.get('/', async (req, res) => {
   try {
-    const tags = await Tag.findAll({
+    const tag = await Tag.findAll({
       include: {
         model: Product,
         attributes: ['product_name', 'price', 'stock', 'category_id']
       }
     });
-    res.json(tags);
+    res.json(tag);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -45,10 +45,10 @@ router.get('/:id', async (req, res) => {
 // POST a new tag
 router.post('/', async (req, res) => {
   try {
-    const newTag = await Tag.create({
+    const tag = await Tag.create({
       tag_name: req.body.tag_name
     });
-    res.json(newTag);
+    res.json(tag);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -78,16 +78,16 @@ router.put('/:id', async (req, res) => {
 // DELETE a tag by id
 router.delete('/:id', async (req, res) => {
   try {
-    const deletedTag = await Tag.destroy({
+    const deleteTag = await Tag.destroy({
       where: {
         id: req.params.id
       }
     });
-    if (!deletedTag) {
+    if (!deleteTag) {
       res.status(404).json({ message: 'No tag found with this id' });
       return;
     }
-    res.json(deletedTag);
+    res.json({ message: 'Product deleted successfully' });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
